@@ -1,0 +1,370 @@
+/* ═══════════════════════════════════════════════════════════════
+   DATING FOR DUMMIES · LOCAL READER
+   Dark editorial theme · Vanilla CSS · No frameworks
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  --bg:              #0f0e0d;
+  --bg-raised:       #1a1816;
+  --bg-subtle:       #221f1c;
+  --bg-border:       #2e2a26;
+
+  --text:            #e8e0d5;
+  --text-muted:      #9a9088;
+  --text-faint:      #5a544e;
+
+  --accent:          #c97941;
+  --accent-dim:      #7a4a26;
+
+  /* Callout palettes */
+  --tip-bg:          #131e16;
+  --tip-border:      #2d6b3a;
+  --tip-label:       #7ecb8a;
+
+  --warn-bg:         #1e1610;
+  --warn-border:     #8c4a12;
+  --warn-label:      #e09650;
+
+  --remember-bg:     #10151e;
+  --remember-border: #1e3f6e;
+  --remember-label:  #6aaddf;
+
+  --note-bg:         #18141e;
+  --note-border:     #4a2d6e;
+  --note-label:      #b08ddf;
+
+  /* Typography */
+  --font-serif:  'Lora', Georgia, serif;
+  --font-sans:   'DM Sans', system-ui, sans-serif;
+  --font-mono:   'DM Mono', 'Courier New', monospace;
+
+  /* Fluid type scale via clamp(min, preferred-vw, max) */
+  --step--1: clamp(0.75rem,  0.72rem + 0.4vw,  0.875rem);
+  --step-0:  clamp(1rem,     0.96rem + 0.5vw,  1.125rem);
+  --step-1:  clamp(1.125rem, 1.05rem + 0.8vw,  1.375rem);
+  --step-2:  clamp(1.35rem,  1.2rem  + 1.2vw,  1.75rem);
+  --step-3:  clamp(1.6rem,   1.35rem + 1.8vw,  2.25rem);
+  --step-4:  clamp(1.9rem,   1.5rem  + 2.8vw,  3rem);
+
+  /* Layout */
+  --measure:   65ch;
+  --space-xs:  0.5rem;
+  --space-s:   0.875rem;
+  --space-m:   1.25rem;
+  --space-l:   2rem;
+  --space-xl:  3.5rem;
+
+  --radius:    6px;
+  --transition: 180ms ease;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── Progress bar ── */
+.progress-track {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--bg-border);
+  z-index: 1000;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── Site header ── */
+.site-header {
+  position: sticky;
+  top: 3px;
+  z-index: 100;
+  padding: var(--space-m) var(--space-m) var(--space-s);
+  background: rgba(15, 14, 13, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--bg-border);
+}
+.site-header__inner {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+.site-header__eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+.site-header__title {
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* ── Reader layout ── */
+.reader {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: var(--space-xl) var(--space-m);
+}
+
+/* ── Prose base ── */
+.prose { color: var(--text); }
+
+.prose p {
+  margin-bottom: var(--space-m);
+  line-height: 1.85;
+}
+
+/* ── Headings ── */
+.prose h1, .prose h2, .prose h3,
+.prose h4, .prose h5, .prose h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-m);
+  letter-spacing: -0.02em;
+  scroll-margin-top: 5rem;
+}
+
+.prose h1 { font-size: var(--step-4); }
+
+.prose h2 {
+  font-size: var(--step-3);
+  padding-bottom: var(--space-s);
+  border-bottom: 1px solid var(--bg-border);
+}
+
+/* h3 doubles as sidebar heading in Marker output */
+.prose h3 {
+  font-size: var(--step-2);
+  font-style: italic;
+  color: var(--text-muted);
+  border-left: 3px solid var(--bg-border);
+  padding-left: var(--space-s);
+  margin-top: var(--space-l);
+}
+
+.prose h4 { font-size: var(--step-1); }
+
+.prose h5, .prose h6 {
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* Anchor links on headings */
+.heading-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+.heading-anchor:hover::after {
+  content: ' ¶';
+  color: var(--accent);
+  font-size: 0.75em;
+  opacity: 0.6;
+}
+
+/* ── Lists ── */
+.prose ul, .prose ol {
+  padding-left: 1.6em;
+  margin-bottom: var(--space-m);
+}
+.prose li {
+  margin-bottom: var(--space-xs);
+  line-height: 1.75;
+}
+/* The book uses "- ✓" bullets — keep the checkmark visible */
+.prose ul { list-style-type: none; padding-left: 0.25em; }
+.prose ul li { padding-left: 1.4em; position: relative; }
+.prose ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.85em;
+  top: 0.1em;
+}
+.prose ol { list-style-type: decimal; padding-left: 1.6em; }
+.prose ol li::marker { color: var(--accent); }
+
+/* Nested lists */
+.prose li > ul,
+.prose li > ol { margin-top: var(--space-xs); margin-bottom: var(--space-xs); }
+
+/* ── Inline ── */
+.prose strong { font-weight: 600; color: var(--text); }
+.prose em { font-style: italic; }
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-dim);
+  text-underline-offset: 3px;
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+.prose a:hover {
+  color: #e8a06a;
+  text-decoration-color: var(--accent);
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-subtle);
+  color: var(--tip-label);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius);
+  border: 1px solid var(--bg-border);
+}
+
+/* Code blocks */
+.prose pre {
+  background: var(--bg-raised);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius);
+  padding: var(--space-m);
+  overflow-x: auto;
+  margin-bottom: var(--space-l);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+.prose pre code {
+  background: none; border: none;
+  padding: 0; color: var(--text); font-size: inherit;
+}
+
+/* HR */
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--bg-border);
+  margin: var(--space-xl) 0;
+}
+
+/* Images */
+.prose img {
+  max-width: 100%; height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--bg-border);
+  display: block;
+  margin: var(--space-l) auto;
+}
+
+/* ── Tables ── */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: var(--space-l);
+  border-radius: var(--radius);
+  border: 1px solid var(--bg-border);
+}
+.prose table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: var(--step--1); }
+.prose thead { background: var(--bg-raised); border-bottom: 2px solid var(--bg-border); }
+.prose th { text-align: left; padding: var(--space-s) var(--space-m); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75em; color: var(--text-muted); }
+.prose td { padding: var(--space-s) var(--space-m); border-top: 1px solid var(--bg-border); vertical-align: top; line-height: 1.6; }
+.prose tbody tr:hover { background: var(--bg-raised); }
+
+/* ── Callout boxes ────────────────────────────────────────────────
+   In this book, Marker rendered "Tip / Warning / Remember / Note"
+   as plain paragraphs starting with **Keyword:** — not blockquotes.
+   Our <Paragraph> component detects them and renders an <aside>.
+   ─────────────────────────────────────────────────────────────── */
+.callout {
+  border-radius: var(--radius);
+  border-left: 4px solid transparent;
+  padding: var(--space-m);
+  margin: var(--space-l) 0;
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  line-height: 1.65;
+}
+.callout p { margin-bottom: var(--space-xs); }
+.callout p:last-child { margin-bottom: 0; }
+
+.callout__badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.72em;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-s);
+}
+.callout__icon { font-size: 1.15em; }
+.callout__body { color: var(--text); }
+
+.callout--tip      { background: var(--tip-bg);      border-color: var(--tip-border);      }
+.callout--tip      .callout__badge { color: var(--tip-label); }
+
+.callout--warning  { background: var(--warn-bg);     border-color: var(--warn-border);     }
+.callout--warning  .callout__badge { color: var(--warn-label); }
+
+.callout--remember { background: var(--remember-bg); border-color: var(--remember-border); }
+.callout--remember .callout__badge { color: var(--remember-label); }
+
+.callout--note     { background: var(--note-bg);     border-color: var(--note-border);     }
+.callout--note     .callout__badge { color: var(--note-label); }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: var(--space-xl) var(--space-m);
+  border-top: 1px solid var(--bg-border);
+  color: var(--text-faint);
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+/* ── Selection ── */
+::selection { background: var(--accent-dim); color: var(--text); }
+
+/* ── Focus ── */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .site-header { padding: var(--space-m) var(--space-s) var(--space-s); }
+  .reader { padding: var(--space-l) var(--space-s); }
+  body { line-height: 1.75; }
+}
